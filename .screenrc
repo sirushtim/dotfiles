@@ -1,0 +1,14 @@
+startup_message off
+bell_msg ""
+vbell off
+term rxvt
+defscrollback 1024
+hardstatus on
+hardstatus alwayslastline '%{= .} %-Lw%{= .}%> %n%f %t*%{= .}%+Lw%< %-=%{g}(%{d}%H/%l%{g})'
+
+shelltitle "$ |bash"
+
+screen -t mutt 0 "mutt-patched"
+screen -t gertty 1 sh -c "gertty -d"
+screen -t newsbeuter 2 "newsbeuter"
+

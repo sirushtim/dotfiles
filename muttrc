@@ -1,0 +1,80 @@
+set from="Sirushti Murugesan <email id>"
+set realname="Sirushti Murugesan"
+set hostname=
+
+set imap_user=""
+
+set imap_pass=""
+set folder=""
+set mail_check=150
+set imap_keepalive=150
+
+#activate TLS if available on the server
+set ssl_starttls=yes
+#set certificate_file=~/.mutt/certificates
+set smtp_url=""
+set timeout=150
+
+set spoolfile=+INBOX
+set record="+Sent Items"
+set postponed=+Drafts
+set mbox_type=Maildir
+set move=no
+set copy=yes
+set delete=yes # removes the confirmation when syncing mailbox ($)
+unset confirmappend
+
+set header_cache=~/.mutt/cache
+set alias_file=~/.mutt/aliases
+# source $alias_file   # you can do this instead of running LBDB
+set query_command="lbdbq '%s'" # required for LDAP
+set signature=~/.mutt/sig
+set sig_dashes=no   # ONLY unset this if your sig contains "-- \n"!
+
+ignore received lines organization # don't display these headers
+
+set attribution="%n said on %d:\n"
+set autoedit
+set fast_reply
+set indent_string="> "
+set forward_quote=yes
+set include=yes
+set autoedit
+set edit_headers
+set editor="vim -c 'set tw=72'"
+set sort=threads
+set sort_aux=last-date-received
+set sleep_time=0
+
+bind index,pager G    imap-fetch-mail
+bind editor      \cI  complete-query
+
+# Remap delete so it moves to Deleted Items
+# Mutt helpfully autofills "Items"
+macro index,pager d 's=Deleted <return>'
+
+set sidebar_width = 20
+set sidebar_visible = yes
+color sidebar_new yellow default
+
+#mailboxes =INBOX =Heat-Dev =Heat-General =Heat-Reviews =BugMail =Reviews =Taskflow =OpenStack-Dev =OpenStack-General ="Openstack-Dev-Filtered" ="Sent Items"
+#set imap_check_subscribed=yes
+mailboxes =INBOX =Heat-Dev =Heat-General =OpenStack-Dev-All =OpenStack-Dev =OpenStack-General
+
+bind index <left> sidebar-prev
+bind index <right> sidebar-next
+bind index <space> sidebar-open   # sidebar toggle
+macro index ,@) "<enter-command> set sidebar_visible=no; macro index ~ ,@( 'Toggle sidebar'<Enter>"
+macro index ,@( "<enter-command> set sidebar_visible=yes; macro index ~ ,@) 'Toggle sidebar'<Enter>"
+macro index ~ ,@( 'Toggle sidebar'      # toggle the sidebarn
+
+#html
+auto_view text/html
+
+# use very high $read_inc to speed up reading hcache'd maildirs
+folder-hook . 'set read_inc=1000'
+# use lower value for reading slower remote IMAP folders
+folder-hook ^imap 'set read_inc=100'
+# use even lower value for reading even slower remote POP folders
+
+folder-hook ^pop 'set read_inc=1'

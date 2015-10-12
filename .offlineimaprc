@@ -1,0 +1,32 @@
+[general]
+accounts = xx
+
+[Account xx]
+localrepository = Local
+remoterepository = Remote
+status_backend = sqlite
+autorefresh = 2
+quick = 10
+maxage = 30
+presynchook = imapfilter
+
+[Repository Local]
+type = Maildir
+localfolders = ~/.imap
+
+[Repository Remote]
+type = IMAP
+remotehost = <imap host>
+remoteuser = <email id>
+# remotepass = xxxxxxx
+folderfilter = lambda dirname: dirname in [
+        'INBOX','Deleted Items','Sent Items','save','os-dev']
+idlefolders = ['INBOX']
+
+[mbnames]
+enabled = yes
+filename = ~/.mutt/muttrc.mailboxes
+header = "mailboxes "
+peritem = "+%(accountname)s/%(foldername)s"
+sep = " "
+footer = "\n"
